@@ -1,18 +1,35 @@
-from PyPDF2 import PdfReader
+import streamlit as st
 import nltk
-nltk.download("punkt")
 from nltk.tokenize import sent_tokenize
+from PyPDF2 import PdfReader
 
-reader = PdfReader("Z-TOPSIS_approach_for_performance_assessment_using_fuzzy_similarity.pdf")
+nltk.download("punkt")
 
-text = ""
-for page in reader.pages:
-    text += page.extract_text()
+st.title("Text Chunking Web App using NLTK")
 
-sentences = sent_tokenize(text)
+pdf_filename = "Z-TOPSIS_approach_for_performance_assessment_using_fuzzy_similarity.pdf"
 
-chunk = sentences[58:69]
+try:
+    pdf_reader = PdfReader(pdf_filename)
+    full_text = ""
+    for page in pdf_reader.pages:
+        full_text += page.extract_text() + " "
 
-print("Semantic Sentence Chunk:")
-for sentence in chunk:
-    print(sentence)
+    sentences = sent_tokenize(full_text)
+
+    st.subheader("Sample Extracted Sentences (Index 58 to 68)")
+    start_index = 58
+    end_index = 68
+    if len(sentences) < start_index:
+        st.write("Not enough sentences in the PDF for this index range.")
+    else:
+        sample_sentences = sentences[start_index-1:end_index]
+        for i, s in enumerate(sample_sentences, start=start_index):
+            st.write(f"{i}. {s}")
+
+    st.subheader("All Tokenized Sentences")
+    for i, s in enumerate(sentences, start=1):
+        st.write(f"{i}. {s}")
+
+except FileNotFoundError:
+    st.error(f"PDF file '{pdf_filename}' not found. Please check the file location.")
