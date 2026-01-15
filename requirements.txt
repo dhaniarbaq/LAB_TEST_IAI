@@ -7,4 +7,3 @@ Pillow
 requests
 nltk
 PyPDF2
-punkt
