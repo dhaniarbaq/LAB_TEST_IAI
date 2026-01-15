@@ -30,7 +30,7 @@ def infer_action(facts):
 
 st.set_page_config(page_title="Smart AC Controller", layout="centered")
 
-st.title("❄️ Smart Home Air Conditioner Controller")
+st.title("Smart Home Air Conditioner Controller")
 st.caption("Rule-Based Expert System using JSON Knowledge Base")
 
 temperature = st.number_input("Temperature (°C)", value=22)
