@@ -2,11 +2,21 @@ import streamlit as st
 import nltk
 from nltk.tokenize import sent_tokenize
 from PyPDF2 import PdfReader
-
-nltk.download("punkt")
+import os
 
 st.title("Text Chunking Web App using NLTK")
 
+# Make sure the NLTK data folder exists
+nltk_data_dir = "nltk_data"
+os.makedirs(nltk_data_dir, exist_ok=True)
+
+# Download 'punkt' to the local nltk_data folder
+nltk.download("punkt", download_dir=nltk_data_dir)
+
+# Tell NLTK to look in this local folder
+nltk.data.path.append(nltk_data_dir)
+
+# Load PDF
 pdf_filename = "Z-TOPSIS_approach_for_performance_assessment_using_fuzzy_similarity.pdf"
 
 try:
@@ -15,6 +25,7 @@ try:
     for page in pdf_reader.pages:
         full_text += page.extract_text() + " "
 
+    # Tokenize sentences
     sentences = sent_tokenize(full_text)
 
     st.subheader("Sample Extracted Sentences (Index 58 to 68)")
