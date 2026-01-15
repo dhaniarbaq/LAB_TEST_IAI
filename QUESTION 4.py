@@ -17,7 +17,6 @@ try:
         if text:
             full_text += text + " "
 
-    st.success("PDF text successfully extracted!")
 
     # Regex-based sentence splitting
     sentences = re.split(r'(?<=[.!?])\s+(?=[A-Z])', full_text.strip())
